@@ -32,6 +32,8 @@ SUB_COLOR = "#777777"
 ERROR_COLOR = "#C62828"
 LINK_COLOR = "#1565C0"
 
+REPO_URL = "https://github.com/nilovelez/flypad-keepalive/"
+
 # Texts shown under the controller for each state: (title, subtitle)
 STATE_TEXTS = {
     bridge.SEARCHING:    ("Looking for the Flypad...", "Turn it on if it isn't."),
@@ -135,6 +137,15 @@ class App:
         c.tag_bind(self.link, "<Button-1>", lambda _e: self.link_url and webbrowser.open(self.link_url))
         c.tag_bind(self.link, "<Enter>", lambda _e: c.config(cursor="hand2" if self.link_url else ""))
         c.tag_bind(self.link, "<Leave>", lambda _e: c.config(cursor=""))
+
+        # Small link to the project page in the bottom-left corner
+        self.repo = c.create_text(MARGIN, HEIGHT - MARGIN + 4, text="github.com/nilovelez/flypad-keepalive",
+                                  anchor="sw", font=("Segoe UI", 8), fill=SUB_COLOR)
+        c.tag_bind(self.repo, "<Button-1>", lambda _e: webbrowser.open(REPO_URL))
+        c.tag_bind(self.repo, "<Enter>", lambda _e: (c.config(cursor="hand2"),
+                                                     c.itemconfigure(self.repo, fill=LINK_COLOR)))
+        c.tag_bind(self.repo, "<Leave>", lambda _e: (c.config(cursor=""),
+                                                     c.itemconfigure(self.repo, fill=SUB_COLOR)))
 
         self.show_status(bridge.SEARCHING)
         self.poll()
