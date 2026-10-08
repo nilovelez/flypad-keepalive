@@ -1,6 +1,6 @@
 ---
 estado: activo
-siguiente_paso: Confirmar H4 (.exe probado en una partida) y decidir tecnología e imagen del mando para H5, la interfaz gráfica.
+siguiente_paso: Probar el .exe gráfico con el Flypad en el equipo de pruebas (conectado, batería, Bluetooth apagado) y cerrar H5.
 bloqueo: ""
 actualizado: 2026-10-08
 ---
@@ -14,13 +14,15 @@ Plan por hitos:
 - [x] H1. Poner orden: keep-alive eliminado (probado: no hace falta), docstring al día, `requirements.txt` con versiones fijadas, `.gitignore`.
 - [x] H2. Mensajes de error claros: falta ViGEmBus, Bluetooth apagado o sin adaptador; que la ventana no se cierre de golpe ante un error.
 - [x] H3. Guardar el instalador de ViGEmBus v1.22.0 en `drivers/` con su licencia.
-- [ ] H4. `.exe` único con PyInstaller (`.spec` + script de build), sin incluir `guppy/`.
+- [x] H4. `.exe` único con PyInstaller (`.spec` + script de build), sin incluir `guppy/`.
 - [ ] H5. Interfaz gráfica: ventana pequeña y cuidada con la imagen del mando en el centro, icono de Bluetooth y zona de mensajes debajo (referencia: Logitech Options). El `.exe` final deja de ser de consola.
 - [ ] H6. README: requisitos, instalación del driver, uso, asignación de botones, problemas habituales, aviso de SmartScreen (el `.exe` no está firmado).
 - [ ] H7 (opcional). Publicar una release en GitHub con el `.exe`.
 
 ## Diario
 
+- 2026-10-08: H5 hecho en Marcianito tras aprobar el mockup: flypad_keepalive.py (Tkinter, imágenes de assets/) y .exe sin consola (15,2 MB). Probado aquí: error de driver con enlace, búsqueda BLE real y cierre limpio. Pendiente de probar con el Flypad.
+- 2026-10-08: H4 cerrado: el .exe funciona en una partida en el equipo de pruebas. H5 decidido: Tkinter; la imagen del mando la aporta Nilo (foto con fondo blanco).
 - 2026-10-08: Nuevo hito H5, interfaz gráfica (el README pasa a H6 y la release a H7). El .exe salta SmartScreen en el equipo de pruebas: se documentará en el README.
 - 2026-10-08: H4 hecho en Marcianito: build.ps1 + flypad_keepalive.spec generan FlypadKeepalive.exe (11,8 MB). Probado aquí: --help, error de driver ausente y escaneo BLE. Pendiente de probar con el Flypad en el equipo de pruebas.
 - 2026-10-08: H3 cerrado.

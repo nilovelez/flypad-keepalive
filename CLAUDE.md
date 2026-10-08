@@ -3,8 +3,11 @@
 Puente que permite usar el mando **Parrot Flypad** (Bluetooth LE) en simuladores de dron de PC
 (Liftoff, Uncrashed) presentándolo como un mando virtual de Xbox 360.
 
-Código principal: `flypad_bridge.py` (Python, `bleak` + `vgamepad`). Ya funciona: probado
-10+ minutos seguidos en Uncrashed sin cortes.
+Código: `flypad_bridge.py` es el núcleo (búsqueda, conexión, mando virtual) y la versión de consola;
+informa de estados con un objeto «reporter». `flypad_keepalive.py` es la ventana gráfica (Tkinter,
+480×360, imágenes de `assets/` diseñadas por Nilo): ejecuta el bridge en un hilo con su propio bucle
+asyncio y recibe los eventos por una cola. El `.exe` se genera a partir de la ventana gráfica.
+Probado 10+ minutos seguidos en Uncrashed sin cortes.
 
 ## Idioma
 
@@ -84,11 +87,12 @@ Extraído decompilando FreeFlight Mini 5.5.9 (`com.parrot.freeflight3.RemoteCont
 
 ## Build del .exe
 
-- `.\build.ps1` → `dist\FlypadKeepalive.exe` (un solo archivo, con consola, ~12 MB). Crea `.venv` con
+- `.\build.ps1` → `dist\FlypadKeepalive.exe` (un solo archivo, ventana gráfica sin consola, ~15 MB). Crea `.venv` con
   `requirements-build.txt` (PyInstaller 6.22.3) si no existe. Se compila en Marcianito.
 - `flypad_keepalive.spec` mete a mano `vgamepad/win/vigem/client/x64/ViGEmClient.dll` en esa misma
   ruta (vgamepad la carga relativa a su paquete). El spec localiza vgamepad con `find_spec` sin
   importarlo, porque importarlo falla si no está ViGEmBus (Marcianito no lo tiene).
+- Incluye solo los `.png` de `assets/` (no los `.psd`/`.ai` de diseño).
 - No se incluyen los MSI viejos de ViGEmBus que trae vgamepad, ni `guppy/` ni `drivers/`
   (comprobado con `pyi-archive_viewer --list`).
 - Los avisos de `winrt.windows.*` que salen en `build\...\warn-*.txt` son paquetes opcionales que
