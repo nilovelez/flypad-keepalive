@@ -1,6 +1,6 @@
 ---
 estado: activo
-siguiente_paso: H6, repo presentable: LICENSE GPL-3.0 y README en inglés.
+siguiente_paso: Revisar el README publicado en GitHub y cerrar H6; luego H7, publicar la release con el .exe (el README ya enlaza a Releases).
 bloqueo: ""
 actualizado: 2026-10-08
 ---
@@ -21,6 +21,7 @@ Plan por hitos:
 
 ## Diario
 
+- 2026-10-08: H6 hecho: README en inglés (presentación, por qué, instalación, SmartScreen, uso con capturas, botones, troubleshooting, cómo funciona, build, créditos), LICENSE GPL-3.0 y capturas en docs/images/. El enlace de descarga apunta a Releases, que aún está vacío (H7).
 - 2026-10-08: H5 cerrado: ventana gráfica probada con el Flypad en el equipo de pruebas.
 - 2026-10-08: El enlace al repo pasa a ser un crédito: «© Nilo Velez · GPL-3.0 Licensed». Falta añadir el LICENSE GPL-3.0 al repo (H6).
 - 2026-10-08: Enlace al repo de GitHub en la esquina inferior izquierda de la ventana.
