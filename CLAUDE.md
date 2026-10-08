@@ -8,15 +8,19 @@ Código principal: `flypad_bridge.py` (Python, `bleak` + `vgamepad`). Ya funcion
 
 ## Estado y próximos pasos
 
-- [ ] Empaquetar como `.exe` único con PyInstaller.
-- [ ] Keep-alive **desactivado por defecto** (se ha comprobado que no hace falta), pero dejarlo
-      como opción (`--keepalive`) por si algún día vuelve a cortarse.
-- [ ] Guardar una copia del instalador de ViGEmBus v1.22.0 en el repo y documentarlo en el README
-      (ver más abajo).
-- [ ] Hacer que el programa detecte si falta ViGEmBus y lo diga claramente en vez de fallar
-      con un error críptico.
-- [ ] README: requisitos, instalación del driver, uso, asignación de botones.
-- Pendiente de decidir: ventana de consola (como ahora) o app sin ventana con icono en la bandeja.
+Ver `guppy/STATUS.md`.
+
+## Estado del proyecto (Guppy)
+
+Todo lo relacionado con Guppy, el gestor de proyectos de Nilo, vive en el directorio `guppy/` de la raíz del repo, separado de los archivos del proyecto. No guardes datos de Guppy fuera de ese directorio ni datos del proyecto dentro de él.
+
+El estado del proyecto está en `guppy/STATUS.md`. Al terminar cualquier sesión que cambie el estado del proyecto:
+1. Actualiza la cabecera de `guppy/STATUS.md` (estado, siguiente_paso, bloqueo, actualizado).
+2. Añade una entrada breve al principio de su Diario.
+3. Incluye el cambio en el commit.
+
+Estados: activo, bloqueado, en-pausa, pendiente, terminado. Si está bloqueado, di qué se espera y de quién.
+No uses CHANGELOG.md para esto: es para usuarios.
 
 ## Protocolo BLE del Flypad
 
