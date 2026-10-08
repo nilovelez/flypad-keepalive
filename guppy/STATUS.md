@@ -1,13 +1,13 @@
 ---
 estado: activo
-siguiente_paso: Probar dist\\FlypadKeepalive.exe en el equipo de pruebas (sin Python) en una partida y cerrar H4.
+siguiente_paso: Confirmar H4 (.exe probado en una partida) y decidir tecnología e imagen del mando para H5, la interfaz gráfica.
 bloqueo: ""
 actualizado: 2026-10-08
 ---
 
 # Estado
 
-El bridge funciona: presenta el Flypad (BLE) como mando virtual de Xbox 360 y se ha probado más de 10 minutos seguidos en Uncrashed sin cortes. Ahora se está convirtiendo en algo distribuible, por hitos y de uno en uno. Decidido: se queda como programa de consola en una ventana pequeña que se deja abierta; no habrá icono en la bandeja.
+El bridge funciona: presenta el Flypad (BLE) como mando virtual de Xbox 360 y se ha probado más de 10 minutos seguidos en Uncrashed sin cortes. Ahora se está convirtiendo en algo distribuible, por hitos y de uno en uno. Decidido: el ejecutable final será una ventana gráfica pequeña que se deja abierta (no consola, no icono en la bandeja), al estilo de la pantalla principal de Logitech Options.
 
 Plan por hitos:
 
@@ -15,11 +15,13 @@ Plan por hitos:
 - [x] H2. Mensajes de error claros: falta ViGEmBus, Bluetooth apagado o sin adaptador; que la ventana no se cierre de golpe ante un error.
 - [x] H3. Guardar el instalador de ViGEmBus v1.22.0 en `drivers/` con su licencia.
 - [ ] H4. `.exe` único con PyInstaller (`.spec` + script de build), sin incluir `guppy/`.
-- [ ] H5. README: requisitos, instalación del driver, uso, asignación de botones, problemas habituales.
-- [ ] H6 (opcional). Publicar una release en GitHub con el `.exe`.
+- [ ] H5. Interfaz gráfica: ventana pequeña y cuidada con la imagen del mando en el centro, icono de Bluetooth y zona de mensajes debajo (referencia: Logitech Options). El `.exe` final deja de ser de consola.
+- [ ] H6. README: requisitos, instalación del driver, uso, asignación de botones, problemas habituales, aviso de SmartScreen (el `.exe` no está firmado).
+- [ ] H7 (opcional). Publicar una release en GitHub con el `.exe`.
 
 ## Diario
 
+- 2026-10-08: Nuevo hito H5, interfaz gráfica (el README pasa a H6 y la release a H7). El .exe salta SmartScreen en el equipo de pruebas: se documentará en el README.
 - 2026-10-08: H4 hecho en Marcianito: build.ps1 + flypad_keepalive.spec generan FlypadKeepalive.exe (11,8 MB). Probado aquí: --help, error de driver ausente y escaneo BLE. Pendiente de probar con el Flypad en el equipo de pruebas.
 - 2026-10-08: H3 cerrado.
 - 2026-10-08: Regla nueva: todo lo público (README, textos de la app, ayuda, comentarios) en inglés. Traducidos flypad_bridge.py y drivers/README.md; regla anotada en CLAUDE.md.
