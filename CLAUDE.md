@@ -6,6 +6,12 @@ Puente que permite usar el mando **Parrot Flypad** (Bluetooth LE) en simuladores
 Código principal: `flypad_bridge.py` (Python, `bleak` + `vgamepad`). Ya funciona: probado
 10+ minutos seguidos en Uncrashed sin cortes.
 
+## Idioma
+
+Todo lo público va en **inglés**: README y demás páginas públicas, textos de la aplicación (mensajes,
+logs, ayuda de la línea de comandos), docstrings, comentarios del código y mensajes de commit.
+En español solo lo interno: este `CLAUDE.md` y `guppy/`.
+
 ## Estado y próximos pasos
 
 Ver `guppy/STATUS.md`.

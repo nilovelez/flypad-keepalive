@@ -20,6 +20,7 @@ Plan por hitos:
 
 ## Diario
 
+- 2026-10-08: Regla nueva: todo lo público (README, textos de la app, ayuda, comentarios) en inglés. Traducidos flypad_bridge.py y drivers/README.md; regla anotada en CLAUDE.md.
 - 2026-10-08: H3 hecho: instalador oficial de ViGEmBus v1.22.0 (firma válida de Nefarius, SHA-256 anotado) y su licencia BSD-3 guardados en drivers/.
 - 2026-10-08: H2 cerrado. Probado en el equipo de pruebas: uso normal sin cambios; al apagar el Bluetooth avisa y reconecta solo al encenderlo. Retoque: el log muestra «Flypad» cuando Windows no da el nombre del dispositivo.
 - 2026-10-08: H2 implementado y probado en Marcianito (falta ViGEmBus, Bluetooth apagado/ausente simulado, la ventana espera a Intro ante un error). Pendiente de probar en el equipo de pruebas.

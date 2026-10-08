@@ -1,31 +1,31 @@
-# Driver ViGEmBus
+# ViGEmBus driver
 
-Flypad Keepalive crea un mando virtual de Xbox 360 a través del driver **ViGEmBus**. El programa
-no lo instala: hay que instalarlo una vez en cada PC, antes de usarlo.
+Flypad Keepalive creates a virtual Xbox 360 controller through the **ViGEmBus** driver. The program
+does not install it: it has to be installed once on each PC before using it.
 
-Instalador incluido: `ViGEmBus_1.22.0_x64_x86_arm64.exe` (válido para x64, x86 y ARM64; Windows 10 y 11).
-Ejecútalo, acepta los pasos y reinicia si te lo pide.
+Included installer: `ViGEmBus_1.22.0_x64_x86_arm64.exe` (for x64, x86 and ARM64; Windows 10 and 11).
+Run it, go through the steps and restart if asked to.
 
-Se guarda una copia aquí porque ViGEmBus está descontinuado por su autor desde 2023 y la descarga
-original podría desaparecer.
+A copy is kept here because ViGEmBus has been discontinued by its author since 2023 and the original
+download could disappear.
 
-## Procedencia
+## Provenance
 
 | | |
 |---|---|
-| Versión | v1.22.0 |
-| Origen | https://github.com/nefarius/ViGEmBus/releases/tag/v1.22.0 |
-| Tamaño | 6 278 576 bytes |
+| Version | v1.22.0 |
+| Source | https://github.com/nefarius/ViGEmBus/releases/tag/v1.22.0 |
+| Size | 6,278,576 bytes |
 | SHA-256 | `89220A7865076B342892F98865F3499FB7C4CFD673159E89D352C360FD014C6A` |
-| Firma | Authenticode válida, Nefarius Software Solutions e.U. |
+| Signature | Valid Authenticode signature, Nefarius Software Solutions e.U. |
 
-Para comprobar que el archivo no ha cambiado (PowerShell):
+To check that the file hasn't changed (PowerShell):
 
 ```powershell
 Get-FileHash .\ViGEmBus_1.22.0_x64_x86_arm64.exe -Algorithm SHA256
 ```
 
-## Licencia
+## License
 
-ViGEmBus es © Nefarius Software Solutions e.U. y se redistribuye bajo la licencia BSD de 3 cláusulas;
-ver [LICENSE-ViGEmBus.txt](LICENSE-ViGEmBus.txt).
+ViGEmBus is © Nefarius Software Solutions e.U. and is redistributed under the BSD 3-Clause License;
+see [LICENSE-ViGEmBus.txt](LICENSE-ViGEmBus.txt).

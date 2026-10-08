@@ -1,31 +1,31 @@
 # -*- coding: utf-8 -*-
 """
-flypad_bridge.py — Puente Parrot Flypad (BLE) -> mando virtual Xbox 360
+flypad_bridge.py — Flypad Keepalive: Parrot Flypad (BLE) -> virtual Xbox 360 controller
 
-Que hace
---------
-1. Busca el Flypad por Bluetooth LE (nombre "FLYPAD" o servicio 9e35fa00) y se conecta.
-2. Lee sus entradas (frames de 7 bytes en la caracteristica 9e35fa01) y las vuelca
-   a un mando virtual de Xbox 360 (ViGEmBus), que es lo que ven Liftoff/Uncrashed.
-3. Si el mando se desconecta, vuelve a buscarlo y se reconecta solo.
+What it does
+------------
+1. Finds the Flypad over Bluetooth LE (name "FLYPAD" or service 9e35fa00) and connects to it.
+2. Reads its inputs (7-byte frames on characteristic 9e35fa01) and feeds them to a
+   virtual Xbox 360 controller (ViGEmBus), which is what Liftoff/Uncrashed see.
+3. If the controller disconnects, it looks for it again and reconnects on its own.
 
-Protocolo sacado de FreeFlight Mini 5.5.9 (com.parrot.freeflight3.RemoteController
-y FrameResolver).
+Protocol taken from FreeFlight Mini 5.5.9 (com.parrot.freeflight3.RemoteController
+and FrameResolver).
 
-Requisitos
-----------
+Requirements
+------------
     pip install -r requirements.txt
-y el driver ViGEmBus (v1.22.0) instalado en el sistema.
+plus the ViGEmBus driver (v1.22.0) installed on the system.
 
-Uso
----
+Usage
+-----
     python flypad_bridge.py                 # normal
-    python flypad_bridge.py --no-gamepad    # solo diagnostico: imprime frames, sin mando virtual
-    python flypad_bridge.py --address C6:41:41:93:4B:73   # si hay varios Flypad
+    python flypad_bridge.py --no-gamepad    # diagnostics only: print frames, no virtual controller
+    python flypad_bridge.py --address C6:41:41:93:4B:73   # if there is more than one Flypad
 
-Antes de lanzarlo: enciende el Flypad (LED verde parpadeando) y NO lo tengas
-conectado a ninguna otra app/movil. Si lo emparejaste antes en Ajustes de Windows,
-no hace falta quitarlo, pero si da problemas al conectar, prueba a eliminarlo de ahi.
+Before starting it: turn the Flypad on (green LED blinking) and do NOT have it
+connected to any other app/phone. If you paired it before in Windows Settings,
+there is no need to remove it, but if it has trouble connecting, try removing it there.
 """
 
 import argparse
@@ -39,9 +39,9 @@ from bleak.exc import BleakBluetoothNotAvailableError, BleakBluetoothNotAvailabl
 VIGEMBUS_URL = "https://github.com/nefarius/ViGEmBus/releases/tag/v1.22.0"
 
 SERVICE_UUID = "9e35fa00-4344-44d4-a2e2-0c7f6046878b"
-INPUT_UUID   = "9e35fa01-4344-44d4-a2e2-0c7f6046878b"   # notificaciones mando -> PC
+INPUT_UUID   = "9e35fa01-4344-44d4-a2e2-0c7f6046878b"   # notifications controller -> PC
 
-# Mascaras de botones (FrameResolver.Button)
+# Button masks (FrameResolver.Button)
 BTN_TAKEOFF   = 0x0001
 BTN_1         = 0x0002
 BTN_2         = 0x0004
@@ -56,7 +56,7 @@ BTN_JOY_RIGHT = 0x0400
 
 
 class FatalError(Exception):
-    """Error que el usuario tiene que arreglar; se muestra el mensaje tal cual y se sale."""
+    """Error the user has to fix; the message is shown as is and the program exits."""
 
 
 def log(msg):
@@ -64,12 +64,12 @@ def log(msg):
 
 
 def pause_before_exit():
-    """Espera a que el usuario lea el error; con doble clic en el .exe la ventana se cerraria sola.
-    (No se intenta detectar si la consola es propia: el venv y el .exe de PyInstaller lanzan
-    un proceso hijo, asi que GetConsoleProcessList no sirve.)"""
+    """Let the user read the error; when the .exe is double-clicked the window would close.
+    (We don't try to detect whether the console is ours: the venv and the PyInstaller .exe
+    spawn a child process, so GetConsoleProcessList is no use.)"""
     if sys.stdin and sys.stdin.isatty():
         try:
-            input("\nPulsa Intro para cerrar esta ventana...")
+            input("\nPress Enter to close this window...")
         except (EOFError, KeyboardInterrupt):
             pass
 
@@ -81,26 +81,26 @@ def axis(b, invert=False):
 
 
 class Pad:
-    """Mando virtual Xbox 360. Si enabled=False solo imprime."""
+    """Virtual Xbox 360 controller. If enabled=False it only prints."""
 
     def __init__(self, enabled):
         self.enabled = enabled
         self.last = None
         self.battery = None
         if enabled:
-            # vgamepad se conecta al driver ViGEmBus ya al importarse
+            # vgamepad connects to the ViGEmBus driver as soon as it is imported
             try:
                 import vgamepad as vg
                 self.gp = vg.VX360Gamepad()
             except Exception as e:
                 if "VIGEM_ERROR_BUS_NOT_FOUND" in str(e):
                     raise FatalError(
-                        "No se encuentra el driver ViGEmBus, necesario para crear el mando\n"
-                        "virtual de Xbox 360. Instala ViGEmBus v1.22.0 y vuelve a abrir el programa:\n"
+                        "The ViGEmBus driver was not found. It is needed to create the virtual\n"
+                        "Xbox 360 controller. Install ViGEmBus v1.22.0 and open the program again:\n"
                         "    " + VIGEMBUS_URL)
                 raise FatalError(
-                    "No se pudo crear el mando virtual de Xbox 360 (%s).\n"
-                    "Comprueba que el driver ViGEmBus v1.22.0 esta instalado:\n"
+                    "Could not create the virtual Xbox 360 controller (%s).\n"
+                    "Check that the ViGEmBus v1.22.0 driver is installed:\n"
                     "    %s" % (e, VIGEMBUS_URL))
             self.vg = vg
             B = vg.XUSB_BUTTON
@@ -125,13 +125,13 @@ class Pad:
 
         if battery != self.battery:
             self.battery = battery
-            log("Bateria del mando: %d%%" % battery)
+            log("Controller battery: %d%%" % battery)
 
         if not self.enabled:
             frame = bytes(data)
             if frame != self.last:
                 self.last = frame
-                print("\r  frame: %s   botones=0x%04X   " % (frame.hex(" "), buttons), end="", flush=True)
+                print("\r  frame: %s   buttons=0x%04X   " % (frame.hex(" "), buttons), end="", flush=True)
             return
 
         gp = self.gp
@@ -147,7 +147,7 @@ class Pad:
         gp.update()
 
     def reset(self):
-        """Suelta todo al desconectarse, para que el dron virtual no se quede con el stick pegado."""
+        """Release everything on disconnect, so the virtual drone isn't left with a stuck stick."""
         if self.enabled:
             self.gp.reset()
             self.gp.update()
@@ -166,52 +166,52 @@ async def find_flypad(address):
 
 
 def bluetooth_error(e):
-    """FatalError con un mensaje entendible para un BleakBluetoothNotAvailableError."""
+    """FatalError with an understandable message for a BleakBluetoothNotAvailableError."""
     R = BleakBluetoothNotAvailableReason
     if e.reason == R.NO_BLUETOOTH:
-        msg = ("No se encuentra ningun adaptador Bluetooth en este PC.\n"
-               "Hace falta Bluetooth 4.0 (BLE) o superior; si el PC no lo tiene,\n"
-               "sirve un adaptador Bluetooth USB.")
+        msg = ("No Bluetooth adapter was found on this PC.\n"
+               "Bluetooth 4.0 (BLE) or later is required; if the PC doesn't have it,\n"
+               "a USB Bluetooth adapter will do.")
     elif e.reason == R.NO_BLE_CENTRAL_ROLE:
-        msg = ("El adaptador Bluetooth de este PC no permite conectarse a mandos\n"
-               "Bluetooth LE. Prueba con otro adaptador (Bluetooth 4.0 o superior).")
+        msg = ("This PC's Bluetooth adapter can't connect to Bluetooth LE controllers.\n"
+               "Try a different adapter (Bluetooth 4.0 or later).")
     elif e.reason in (R.DENIED_BY_USER, R.DENIED_BY_SYSTEM, R.DENIED_BY_UNKNOWN):
-        msg = ("Windows no deja a este programa usar el Bluetooth.\n"
-               "Revisa los permisos de Bluetooth en Configuracion de Windows.")
+        msg = ("Windows is not allowing this program to use Bluetooth.\n"
+               "Check the Bluetooth permissions in Windows Settings.")
     else:
-        msg = "El Bluetooth no esta disponible (%s)." % (e.args[0] if e.args else e)
+        msg = "Bluetooth is not available (%s)." % (e.args[0] if e.args else e)
     return FatalError(msg)
 
 
 async def run(args):
     pad = Pad(enabled=not args.no_gamepad)
     if pad.enabled:
-        log("Mando virtual Xbox 360 creado.")
+        log("Virtual Xbox 360 controller created.")
 
     bt_off = False
     while True:
         if not bt_off:
-            log("Buscando el Flypad... (enciendelo si no lo esta)")
+            log("Looking for the Flypad... (turn it on if it isn't)")
         try:
             dev = await find_flypad(args.address)
         except BleakBluetoothNotAvailableError as e:
             if e.reason != BleakBluetoothNotAvailableReason.POWERED_OFF:
                 raise bluetooth_error(e)
-            # Apagado se arregla sin reiniciar: avisar una vez y seguir esperando
+            # Powered off can be fixed without restarting: warn once and keep waiting
             if not bt_off:
-                log("El Bluetooth esta apagado. Activalo en Windows; el programa sigue esperando.")
+                log("Bluetooth is turned off. Turn it on in Windows; the program keeps waiting.")
                 bt_off = True
             await asyncio.sleep(2)
             continue
         if bt_off:
-            log("Bluetooth activado.")
+            log("Bluetooth turned on.")
             bt_off = False
         if dev is None:
             await asyncio.sleep(2)
             continue
 
-        # Si se encuentra por el UUID del servicio, Windows puede no dar el nombre
-        log("Encontrado: %s (%s). Conectando..." % (dev.name or "Flypad", dev.address))
+        # When found by service UUID, Windows may not provide the name
+        log("Found: %s (%s). Connecting..." % (dev.name or "Flypad", dev.address))
         loop = asyncio.get_running_loop()
         disconnected = asyncio.Event()
 
@@ -223,35 +223,35 @@ async def run(args):
             async with BleakClient(dev, disconnected_callback=on_disconnect, timeout=20.0) as client:
                 t0 = time.monotonic()
                 await client.start_notify(INPUT_UUID, lambda _s, d: pad.on_frame(d))
-                log("Conectado. Ya puedes usar el mando.")
+                log("Connected. The controller is ready to use.")
                 await disconnected.wait()
         except Exception as e:
-            log("Error de conexion: %s" % e)
+            log("Connection error: %s" % e)
         finally:
             pad.reset()
 
         if args.no_gamepad:
-            print()  # cierra la linea de frames que se va sobrescribiendo con \r
-        log("Desconectado tras %d s. Reintentando..." % (time.monotonic() - t0))
+            print()  # end the frame line that keeps being overwritten with \r
+        log("Disconnected after %d s. Retrying..." % (time.monotonic() - t0))
         await asyncio.sleep(2)
 
 
 def main():
-    ap = argparse.ArgumentParser(description="Puente Parrot Flypad BLE -> mando Xbox 360 virtual")
-    ap.add_argument("--address", help="MAC del Flypad (si hay varios)")
-    ap.add_argument("--no-gamepad", action="store_true", help="no crear mando virtual; solo imprimir frames")
+    ap = argparse.ArgumentParser(description="Flypad Keepalive: Parrot Flypad BLE -> virtual Xbox 360 controller")
+    ap.add_argument("--address", help="Flypad MAC address (if there is more than one)")
+    ap.add_argument("--no-gamepad", action="store_true", help="don't create a virtual controller; only print frames")
     args = ap.parse_args()
     try:
         asyncio.run(run(args))
     except KeyboardInterrupt:
-        print("\nSaliendo.")
+        print("\nExiting.")
     except FatalError as e:
         print("\nERROR: %s" % e, flush=True)
         pause_before_exit()
         sys.exit(1)
     except Exception:
         import traceback
-        print("\nERROR inesperado:", flush=True)
+        print("\nUnexpected ERROR:", flush=True)
         traceback.print_exc()
         pause_before_exit()
         sys.exit(1)
