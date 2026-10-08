@@ -21,6 +21,7 @@ Plan por hitos:
 
 ## Diario
 
+- 2026-10-08: Retoques: el error de driver enlaza a la copia de drivers/ del repo y parte el texto en dos líneas; textos de estado más arriba; README sin icono, sin enlace a Parrot y con captura de la ventana con marco (docs/images/window.png).
 - 2026-10-08: H6 hecho: README en inglés (presentación, por qué, instalación, SmartScreen, uso con capturas, botones, troubleshooting, cómo funciona, build, créditos), LICENSE GPL-3.0 y capturas en docs/images/. El enlace de descarga apunta a Releases, que aún está vacío (H7).
 - 2026-10-08: H5 cerrado: ventana gráfica probada con el Flypad en el equipo de pruebas.
 - 2026-10-08: El enlace al repo pasa a ser un crédito: «© Nilo Velez · GPL-3.0 Licensed». Falta añadir el LICENSE GPL-3.0 al repo (H6).

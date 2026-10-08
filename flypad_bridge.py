@@ -36,7 +36,7 @@ import time
 from bleak import BleakClient, BleakScanner
 from bleak.exc import BleakBluetoothNotAvailableError, BleakBluetoothNotAvailableReason
 
-VIGEMBUS_URL = "https://github.com/nefarius/ViGEmBus/releases/tag/v1.22.0"
+VIGEMBUS_URL = "https://github.com/nilovelez/flypad-keepalive/blob/main/drivers/ViGEmBus_1.22.0_x64_x86_arm64.exe"
 
 SERVICE_UUID = "9e35fa00-4344-44d4-a2e2-0c7f6046878b"
 INPUT_UUID   = "9e35fa01-4344-44d4-a2e2-0c7f6046878b"   # notifications controller -> PC
@@ -123,7 +123,7 @@ class Pad:
                 if "VIGEM_ERROR_BUS_NOT_FOUND" in str(e):
                     raise FatalError(
                         "The ViGEmBus driver was not found. It is needed to create the virtual "
-                        "Xbox 360 controller. Install ViGEmBus v1.22.0 and open the program again.",
+                        "Xbox 360 controller.\nInstall ViGEmBus v1.22.0 and open the program again.",
                         url=VIGEMBUS_URL)
                 raise FatalError(
                     "Could not create the virtual Xbox 360 controller (%s). "

@@ -127,11 +127,11 @@ class App:
         self.batt = c.create_image(WIDTH - MARGIN, MARGIN, image=self.img["battery-off"], anchor="ne")
         self.pct = c.create_text(WIDTH - MARGIN - ICON - 6, MARGIN + ICON // 2, text="", anchor="e",
                                  font=("Segoe UI Semibold", 11), fill=TEXT_COLOR)
-        self.title = c.create_text(WIDTH // 2, 272, text="", font=("Segoe UI Semibold", 11),
+        self.title = c.create_text(WIDTH // 2, 260, text="", font=("Segoe UI Semibold", 11),
                                    fill=TEXT_COLOR, width=WIDTH - 40, justify="center")
-        self.sub = c.create_text(WIDTH // 2, 298, text="", font=("Segoe UI", 9),
+        self.sub = c.create_text(WIDTH // 2, 285, text="", font=("Segoe UI", 9),
                                  fill=SUB_COLOR, width=WIDTH - 40, justify="center")
-        self.link = c.create_text(WIDTH // 2, 322, text="", font=("Segoe UI", 9, "underline"),
+        self.link = c.create_text(WIDTH // 2, 308, text="", font=("Segoe UI", 9, "underline"),
                                   fill=LINK_COLOR)
         self.link_url = None
         c.tag_bind(self.link, "<Button-1>", lambda _e: self.link_url and webbrowser.open(self.link_url))

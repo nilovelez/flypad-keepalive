@@ -1,7 +1,3 @@
-<p align="center">
-  <img src="assets/app-icon/app-256.png" width="128" height="128" alt="Flypad Keepalive icon">
-</p>
-
 <h1 align="center">Flypad Keepalive</h1>
 
 <p align="center">
@@ -15,14 +11,14 @@
 </p>
 
 <p align="center">
-  <img src="docs/images/window-connected.png" width="480" alt="Flypad Keepalive window with the Flypad connected and 90% battery">
+  <img src="docs/images/window.png" width="538" alt="Flypad Keepalive window with the Flypad connected and 90% battery">
 </p>
 
 ---
 
 ## Why?
 
-The [Parrot Flypad](https://www.parrot.com/) is a nice, light Bluetooth controller made for Parrot's
+The Parrot Flypad is a nice, light Bluetooth controller made for Parrot's
 minidrones. Windows recognizes it as a game controller, both over USB and when paired over Bluetooth,
 so it looks like it should just work in simulators like **Liftoff** or **Uncrashed**.
 
