@@ -55,7 +55,7 @@ controller, such as **Liftoff**, works the same way.
 
 ### 1. Install the ViGEmBus driver (once)
 
-Download and run [`drivers/ViGEmBus_1.22.0_x64_x86_arm64.exe`](drivers/ViGEmBus_1.22.0_x64_x86_arm64.exe),
+Download and run [`ViGEmBus_1.22.0_x64_x86_arm64.exe`](https://github.com/nilovelez/flypad-keepalive/raw/main/drivers/ViGEmBus_1.22.0_x64_x86_arm64.exe),
 go through the steps and restart if asked to.
 
 ViGEmBus is the open-source driver that lets programs create virtual game controllers. Its author

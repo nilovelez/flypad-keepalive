@@ -36,7 +36,7 @@ import time
 from bleak import BleakClient, BleakScanner
 from bleak.exc import BleakBluetoothNotAvailableError, BleakBluetoothNotAvailableReason
 
-VIGEMBUS_URL = "https://github.com/nilovelez/flypad-keepalive/blob/main/drivers/ViGEmBus_1.22.0_x64_x86_arm64.exe"
+VIGEMBUS_URL = "https://github.com/nilovelez/flypad-keepalive/raw/main/drivers/ViGEmBus_1.22.0_x64_x86_arm64.exe"
 
 SERVICE_UUID = "9e35fa00-4344-44d4-a2e2-0c7f6046878b"
 INPUT_UUID   = "9e35fa01-4344-44d4-a2e2-0c7f6046878b"   # notifications controller -> PC
