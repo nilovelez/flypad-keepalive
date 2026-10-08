@@ -65,6 +65,14 @@ Extraído decompilando FreeFlight Mini 5.5.9 (`com.parrot.freeflight3.RemoteCont
   (https://github.com/nefarius/ViGEmBus/releases/tag/v1.22.0). Comprobado: se desinstaló el driver que
   instala `pip install vgamepad`, se instaló esta versión y el bridge sigue funcionando perfectamente.
   Es la que hay que guardar en el repo y documentar en el README.
+- **Error cuando falta el driver** (reproducido en Marcianito, sin ViGEmBus): salta ya en
+  `import vgamepad` (no al crear el mando), porque `vgamepad/win/virtual_gamepad.py` crea un bus
+  global `VBUS = VBus()` al importarse. Es una `Exception` genérica con el texto
+  `VIGEM_ERROR_BUS_NOT_FOUND` (código `0xE0000001`). El bridge la reconoce por ese texto y muestra
+  un mensaje con el enlace a ViGEmBus v1.22.0.
+- `pip install vgamepad` (al compilar el paquete desde fuente) lanza el instalador MSI de ViGEmBus
+  que trae dentro, y no es la v1.22.0. Si aparece al preparar un entorno, cancelarlo: el paquete se
+  instala igual.
 - ViGEmBus está descontinuado por su autor (Nefarius, 2023), pero sigue funcionando en
   Windows 10 y 11. Por eso conviene guardar una copia del instalador en el repo.
 

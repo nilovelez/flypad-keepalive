@@ -1,6 +1,6 @@
 ---
 estado: activo
-siguiente_paso: H2, mensajes de error claros (falta ViGEmBus, Bluetooth apagado) y que la ventana no se cierre de golpe.
+siguiente_paso: Probar H2 en el equipo de pruebas (uso normal sin cambios; mensajes de error) y cerrarlo.
 bloqueo: ""
 actualizado: 2026-10-08
 ---
@@ -20,6 +20,7 @@ Plan por hitos:
 
 ## Diario
 
+- 2026-10-08: H2 implementado y probado en Marcianito (falta ViGEmBus, Bluetooth apagado/ausente simulado, la ventana espera a Intro ante un error). Pendiente de probar en el equipo de pruebas.
 - 2026-10-08: H1 cerrado. Probado en el equipo de pruebas: funciona sin keep-alive, así que se elimina del código. Versiones fijadas: bleak 3.0.2, vgamepad 0.1.0 (Python 3.14).
 - 2026-10-08: H1 hecho: keep-alive pasa a ser opcional (`--keepalive`), limpieza del script, `requirements.txt` y `.gitignore`. Decidido: consola, sin icono de bandeja. Plan por hitos H1–H6.
 - 2026-10-08: guppy/STATUS.md creado.

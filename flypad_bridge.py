@@ -34,6 +34,9 @@ import sys
 import time
 
 from bleak import BleakClient, BleakScanner
+from bleak.exc import BleakBluetoothNotAvailableError, BleakBluetoothNotAvailableReason
+
+VIGEMBUS_URL = "https://github.com/nefarius/ViGEmBus/releases/tag/v1.22.0"
 
 SERVICE_UUID = "9e35fa00-4344-44d4-a2e2-0c7f6046878b"
 INPUT_UUID   = "9e35fa01-4344-44d4-a2e2-0c7f6046878b"   # notificaciones mando -> PC
@@ -52,8 +55,23 @@ BTN_JOY_LEFT  = 0x0200
 BTN_JOY_RIGHT = 0x0400
 
 
+class FatalError(Exception):
+    """Error que el usuario tiene que arreglar; se muestra el mensaje tal cual y se sale."""
+
+
 def log(msg):
     print("[%s] %s" % (time.strftime("%H:%M:%S"), msg), flush=True)
+
+
+def pause_before_exit():
+    """Espera a que el usuario lea el error; con doble clic en el .exe la ventana se cerraria sola.
+    (No se intenta detectar si la consola es propia: el venv y el .exe de PyInstaller lanzan
+    un proceso hijo, asi que GetConsoleProcessList no sirve.)"""
+    if sys.stdin and sys.stdin.isatty():
+        try:
+            input("\nPulsa Intro para cerrar esta ventana...")
+        except (EOFError, KeyboardInterrupt):
+            pass
 
 
 def axis(b, invert=False):
@@ -70,9 +88,21 @@ class Pad:
         self.last = None
         self.battery = None
         if enabled:
-            import vgamepad as vg
+            # vgamepad se conecta al driver ViGEmBus ya al importarse
+            try:
+                import vgamepad as vg
+                self.gp = vg.VX360Gamepad()
+            except Exception as e:
+                if "VIGEM_ERROR_BUS_NOT_FOUND" in str(e):
+                    raise FatalError(
+                        "No se encuentra el driver ViGEmBus, necesario para crear el mando\n"
+                        "virtual de Xbox 360. Instala ViGEmBus v1.22.0 y vuelve a abrir el programa:\n"
+                        "    " + VIGEMBUS_URL)
+                raise FatalError(
+                    "No se pudo crear el mando virtual de Xbox 360 (%s).\n"
+                    "Comprueba que el driver ViGEmBus v1.22.0 esta instalado:\n"
+                    "    %s" % (e, VIGEMBUS_URL))
             self.vg = vg
-            self.gp = vg.VX360Gamepad()
             B = vg.XUSB_BUTTON
             self.map = [
                 (BTN_TAKEOFF,   B.XUSB_GAMEPAD_START),
@@ -135,14 +165,47 @@ async def find_flypad(address):
     return await BleakScanner.find_device_by_filter(match, timeout=8.0)
 
 
+def bluetooth_error(e):
+    """FatalError con un mensaje entendible para un BleakBluetoothNotAvailableError."""
+    R = BleakBluetoothNotAvailableReason
+    if e.reason == R.NO_BLUETOOTH:
+        msg = ("No se encuentra ningun adaptador Bluetooth en este PC.\n"
+               "Hace falta Bluetooth 4.0 (BLE) o superior; si el PC no lo tiene,\n"
+               "sirve un adaptador Bluetooth USB.")
+    elif e.reason == R.NO_BLE_CENTRAL_ROLE:
+        msg = ("El adaptador Bluetooth de este PC no permite conectarse a mandos\n"
+               "Bluetooth LE. Prueba con otro adaptador (Bluetooth 4.0 o superior).")
+    elif e.reason in (R.DENIED_BY_USER, R.DENIED_BY_SYSTEM, R.DENIED_BY_UNKNOWN):
+        msg = ("Windows no deja a este programa usar el Bluetooth.\n"
+               "Revisa los permisos de Bluetooth en Configuracion de Windows.")
+    else:
+        msg = "El Bluetooth no esta disponible (%s)." % (e.args[0] if e.args else e)
+    return FatalError(msg)
+
+
 async def run(args):
     pad = Pad(enabled=not args.no_gamepad)
     if pad.enabled:
         log("Mando virtual Xbox 360 creado.")
 
+    bt_off = False
     while True:
-        log("Buscando el Flypad... (enciendelo si no lo esta)")
-        dev = await find_flypad(args.address)
+        if not bt_off:
+            log("Buscando el Flypad... (enciendelo si no lo esta)")
+        try:
+            dev = await find_flypad(args.address)
+        except BleakBluetoothNotAvailableError as e:
+            if e.reason != BleakBluetoothNotAvailableReason.POWERED_OFF:
+                raise bluetooth_error(e)
+            # Apagado se arregla sin reiniciar: avisar una vez y seguir esperando
+            if not bt_off:
+                log("El Bluetooth esta apagado. Activalo en Windows; el programa sigue esperando.")
+                bt_off = True
+            await asyncio.sleep(2)
+            continue
+        if bt_off:
+            log("Bluetooth activado.")
+            bt_off = False
         if dev is None:
             await asyncio.sleep(2)
             continue
@@ -181,6 +244,16 @@ def main():
         asyncio.run(run(args))
     except KeyboardInterrupt:
         print("\nSaliendo.")
+    except FatalError as e:
+        print("\nERROR: %s" % e, flush=True)
+        pause_before_exit()
+        sys.exit(1)
+    except Exception:
+        import traceback
+        print("\nERROR inesperado:", flush=True)
+        traceback.print_exc()
+        pause_before_exit()
+        sys.exit(1)
 
 
 if __name__ == "__main__":
