@@ -1,2 +1,2 @@
-bleak
-vgamepad
+bleak==3.0.2
+vgamepad==0.1.0
