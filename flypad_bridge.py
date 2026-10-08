@@ -56,7 +56,33 @@ BTN_JOY_RIGHT = 0x0400
 
 
 class FatalError(Exception):
-    """Error the user has to fix; the message is shown as is and the program exits."""
+    """Error the user has to fix; the message is shown as is and the program exits.
+    url: optional page that helps fixing it (shown as a link in the GUI)."""
+
+    def __init__(self, message, url=None):
+        super().__init__(message)
+        self.url = url
+
+
+# Connection states reported to the UI
+SEARCHING    = "searching"
+BT_OFF       = "bt_off"
+CONNECTING   = "connecting"
+CONNECTED    = "connected"
+DISCONNECTED = "disconnected"
+
+
+class ConsoleReporter:
+    """Default reporter: prints everything to the console. The GUI provides its own."""
+
+    def status(self, state, message):
+        log(message)
+
+    def info(self, message):
+        log(message)
+
+    def battery(self, percent):
+        log("Controller battery: %d%%" % percent)
 
 
 def log(msg):
@@ -83,8 +109,9 @@ def axis(b, invert=False):
 class Pad:
     """Virtual Xbox 360 controller. If enabled=False it only prints."""
 
-    def __init__(self, enabled):
+    def __init__(self, enabled, reporter):
         self.enabled = enabled
+        self.reporter = reporter
         self.last = None
         self.battery = None
         if enabled:
@@ -95,13 +122,13 @@ class Pad:
             except Exception as e:
                 if "VIGEM_ERROR_BUS_NOT_FOUND" in str(e):
                     raise FatalError(
-                        "The ViGEmBus driver was not found. It is needed to create the virtual\n"
-                        "Xbox 360 controller. Install ViGEmBus v1.22.0 and open the program again:\n"
-                        "    " + VIGEMBUS_URL)
+                        "The ViGEmBus driver was not found. It is needed to create the virtual "
+                        "Xbox 360 controller. Install ViGEmBus v1.22.0 and open the program again.",
+                        url=VIGEMBUS_URL)
                 raise FatalError(
-                    "Could not create the virtual Xbox 360 controller (%s).\n"
-                    "Check that the ViGEmBus v1.22.0 driver is installed:\n"
-                    "    %s" % (e, VIGEMBUS_URL))
+                    "Could not create the virtual Xbox 360 controller (%s). "
+                    "Check that the ViGEmBus v1.22.0 driver is installed." % e,
+                    url=VIGEMBUS_URL)
             self.vg = vg
             B = vg.XUSB_BUTTON
             self.map = [
@@ -125,7 +152,7 @@ class Pad:
 
         if battery != self.battery:
             self.battery = battery
-            log("Controller battery: %d%%" % battery)
+            self.reporter.battery(battery)
 
         if not self.enabled:
             frame = bytes(data)
@@ -169,49 +196,51 @@ def bluetooth_error(e):
     """FatalError with an understandable message for a BleakBluetoothNotAvailableError."""
     R = BleakBluetoothNotAvailableReason
     if e.reason == R.NO_BLUETOOTH:
-        msg = ("No Bluetooth adapter was found on this PC.\n"
-               "Bluetooth 4.0 (BLE) or later is required; if the PC doesn't have it,\n"
-               "a USB Bluetooth adapter will do.")
+        msg = ("No Bluetooth adapter was found on this PC. Bluetooth 4.0 (BLE) or later "
+               "is required; if the PC doesn't have it, a USB Bluetooth adapter will do.")
     elif e.reason == R.NO_BLE_CENTRAL_ROLE:
-        msg = ("This PC's Bluetooth adapter can't connect to Bluetooth LE controllers.\n"
+        msg = ("This PC's Bluetooth adapter can't connect to Bluetooth LE controllers. "
                "Try a different adapter (Bluetooth 4.0 or later).")
     elif e.reason in (R.DENIED_BY_USER, R.DENIED_BY_SYSTEM, R.DENIED_BY_UNKNOWN):
-        msg = ("Windows is not allowing this program to use Bluetooth.\n"
+        msg = ("Windows is not allowing this program to use Bluetooth. "
                "Check the Bluetooth permissions in Windows Settings.")
     else:
         msg = "Bluetooth is not available (%s)." % (e.args[0] if e.args else e)
     return FatalError(msg)
 
 
-async def run(args):
-    pad = Pad(enabled=not args.no_gamepad)
+async def run(address=None, gamepad=True, reporter=None):
+    """Main loop: find, connect, forward inputs, reconnect. Runs until cancelled
+    or until a FatalError is raised."""
+    reporter = reporter or ConsoleReporter()
+    pad = Pad(enabled=gamepad, reporter=reporter)
     if pad.enabled:
-        log("Virtual Xbox 360 controller created.")
+        reporter.info("Virtual Xbox 360 controller created.")
 
     bt_off = False
     while True:
         if not bt_off:
-            log("Looking for the Flypad... (turn it on if it isn't)")
+            reporter.status(SEARCHING, "Looking for the Flypad... (turn it on if it isn't)")
         try:
-            dev = await find_flypad(args.address)
+            dev = await find_flypad(address)
         except BleakBluetoothNotAvailableError as e:
             if e.reason != BleakBluetoothNotAvailableReason.POWERED_OFF:
                 raise bluetooth_error(e)
             # Powered off can be fixed without restarting: warn once and keep waiting
             if not bt_off:
-                log("Bluetooth is turned off. Turn it on in Windows; the program keeps waiting.")
+                reporter.status(BT_OFF, "Bluetooth is turned off. Turn it on in Windows; the program keeps waiting.")
                 bt_off = True
             await asyncio.sleep(2)
             continue
         if bt_off:
-            log("Bluetooth turned on.")
+            reporter.info("Bluetooth turned on.")
             bt_off = False
         if dev is None:
             await asyncio.sleep(2)
             continue
 
         # When found by service UUID, Windows may not provide the name
-        log("Found: %s (%s). Connecting..." % (dev.name or "Flypad", dev.address))
+        reporter.status(CONNECTING, "Found: %s (%s). Connecting..." % (dev.name or "Flypad", dev.address))
         loop = asyncio.get_running_loop()
         disconnected = asyncio.Event()
 
@@ -223,30 +252,32 @@ async def run(args):
             async with BleakClient(dev, disconnected_callback=on_disconnect, timeout=20.0) as client:
                 t0 = time.monotonic()
                 await client.start_notify(INPUT_UUID, lambda _s, d: pad.on_frame(d))
-                log("Connected. The controller is ready to use.")
+                reporter.status(CONNECTED, "Connected. The controller is ready to use.")
                 await disconnected.wait()
         except Exception as e:
-            log("Connection error: %s" % e)
+            reporter.info("Connection error: %s" % e)
         finally:
             pad.reset()
 
-        if args.no_gamepad:
+        if not gamepad:
             print()  # end the frame line that keeps being overwritten with \r
-        log("Disconnected after %d s. Retrying..." % (time.monotonic() - t0))
+        reporter.status(DISCONNECTED, "Disconnected after %d s. Retrying..." % (time.monotonic() - t0))
         await asyncio.sleep(2)
 
 
 def main():
-    ap = argparse.ArgumentParser(description="Flypad Keepalive: Parrot Flypad BLE -> virtual Xbox 360 controller")
+    ap = argparse.ArgumentParser(description="Flypad Keepalive (console version): Parrot Flypad BLE -> virtual Xbox 360 controller")
     ap.add_argument("--address", help="Flypad MAC address (if there is more than one)")
     ap.add_argument("--no-gamepad", action="store_true", help="don't create a virtual controller; only print frames")
     args = ap.parse_args()
     try:
-        asyncio.run(run(args))
+        asyncio.run(run(address=args.address, gamepad=not args.no_gamepad))
     except KeyboardInterrupt:
         print("\nExiting.")
     except FatalError as e:
         print("\nERROR: %s" % e, flush=True)
+        if e.url:
+            print("    " + e.url, flush=True)
         pause_before_exit()
         sys.exit(1)
     except Exception:

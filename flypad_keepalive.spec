@@ -1,5 +1,5 @@
 # -*- mode: python ; coding: utf-8 -*-
-# PyInstaller spec for FlypadKeepalive.exe (single file, console window).
+# PyInstaller spec for FlypadKeepalive.exe (single file, graphical window, no console).
 # Build with build.ps1, or: pyinstaller --clean --noconfirm flypad_keepalive.spec
 
 import importlib.util
@@ -12,15 +12,16 @@ VGAMEPAD_DIR = importlib.util.find_spec("vgamepad").submodule_search_locations[0
 VIGEM_CLIENT_DLL = os.path.join(VGAMEPAD_DIR, "win", "vigem", "client", "x64", "ViGEmClient.dll")
 
 a = Analysis(
-    ["flypad_bridge.py"],
+    ["flypad_keepalive.py"],
     pathex=[],
     binaries=[(VIGEM_CLIENT_DLL, "vgamepad/win/vigem/client/x64")],
-    datas=[],  # only the DLL above: the old ViGEmBus MSIs bundled with vgamepad are left out
+    # Window images. Only the DLL above from vgamepad: its old ViGEmBus MSIs are left out.
+    datas=[(os.path.join("assets", "*.png"), "assets")],
     hiddenimports=[],
     hookspath=[],
     hooksconfig={},
     runtime_hooks=[],
-    excludes=["tkinter", "unittest", "pydoc", "test"],
+    excludes=["unittest", "pydoc", "test"],
     noarchive=False,
     optimize=0,
 )
@@ -39,7 +40,7 @@ exe = EXE(
     upx=False,
     upx_exclude=[],
     runtime_tmpdir=None,
-    console=True,
+    console=False,
     disable_windowed_traceback=False,
     argv_emulation=False,
     target_arch=None,
