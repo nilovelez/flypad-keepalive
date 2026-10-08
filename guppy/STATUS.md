@@ -1,6 +1,6 @@
 ---
 estado: activo
-siguiente_paso: Probar el .exe gráfico con el Flypad en el equipo de pruebas (conectado, batería, Bluetooth apagado) y cerrar H5.
+siguiente_paso: H6, repo presentable: LICENSE GPL-3.0 y README en inglés.
 bloqueo: ""
 actualizado: 2026-10-08
 ---
@@ -15,12 +15,13 @@ Plan por hitos:
 - [x] H2. Mensajes de error claros: falta ViGEmBus, Bluetooth apagado o sin adaptador; que la ventana no se cierre de golpe ante un error.
 - [x] H3. Guardar el instalador de ViGEmBus v1.22.0 en `drivers/` con su licencia.
 - [x] H4. `.exe` único con PyInstaller (`.spec` + script de build), sin incluir `guppy/`.
-- [ ] H5. Interfaz gráfica: ventana pequeña y cuidada con la imagen del mando en el centro, icono de Bluetooth y zona de mensajes debajo (referencia: Logitech Options). El `.exe` final deja de ser de consola.
+- [x] H5. Interfaz gráfica: ventana pequeña y cuidada con la imagen del mando en el centro, icono de Bluetooth y zona de mensajes debajo (referencia: Logitech Options). El `.exe` final deja de ser de consola.
 - [ ] H6. Repo presentable: `LICENSE` con la GPL-3.0 (la ventana ya dice «GPL-3.0 Licensed»); README: requisitos, instalación del driver, uso, asignación de botones, problemas habituales, aviso de SmartScreen (el `.exe` no está firmado).
 - [ ] H7 (opcional). Publicar una release en GitHub con el `.exe`.
 
 ## Diario
 
+- 2026-10-08: H5 cerrado: ventana gráfica probada con el Flypad en el equipo de pruebas.
 - 2026-10-08: El enlace al repo pasa a ser un crédito: «© Nilo Velez · GPL-3.0 Licensed». Falta añadir el LICENSE GPL-3.0 al repo (H6).
 - 2026-10-08: Enlace al repo de GitHub en la esquina inferior izquierda de la ventana.
 - 2026-10-08: Icono de la app (assets/app-icon/icon.ico, de Nilo) puesto en la ventana y en el .exe.
