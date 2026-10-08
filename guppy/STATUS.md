@@ -21,6 +21,7 @@ Plan por hitos:
 
 ## Diario
 
+- 2026-10-08: Icono de la app (assets/app-icon/icon.ico, de Nilo) puesto en la ventana y en el .exe.
 - 2026-10-08: H5 hecho en Marcianito tras aprobar el mockup: flypad_keepalive.py (Tkinter, imágenes de assets/) y .exe sin consola (15,2 MB). Probado aquí: error de driver con enlace, búsqueda BLE real y cierre limpio. Pendiente de probar con el Flypad.
 - 2026-10-08: H4 cerrado: el .exe funciona en una partida en el equipo de pruebas. H5 decidido: Tkinter; la imagen del mando la aporta Nilo (foto con fondo blanco).
 - 2026-10-08: Nuevo hito H5, interfaz gráfica (el README pasa a H6 y la release a H7). El .exe salta SmartScreen en el equipo de pruebas: se documentará en el README.

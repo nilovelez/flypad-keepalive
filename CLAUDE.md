@@ -92,7 +92,8 @@ Extraído decompilando FreeFlight Mini 5.5.9 (`com.parrot.freeflight3.RemoteCont
 - `flypad_keepalive.spec` mete a mano `vgamepad/win/vigem/client/x64/ViGEmClient.dll` en esa misma
   ruta (vgamepad la carga relativa a su paquete). El spec localiza vgamepad con `find_spec` sin
   importarlo, porque importarlo falla si no está ViGEmBus (Marcianito no lo tiene).
-- Incluye solo los `.png` de `assets/` (no los `.psd`/`.ai` de diseño).
+- Incluye solo los `.png` de `assets/` (no los `.psd`/`.ai` de diseño) y `assets/app-icon/icon.ico`,
+  que es a la vez el icono del `.exe` y el de la ventana (`iconbitmap`).
 - No se incluyen los MSI viejos de ViGEmBus que trae vgamepad, ni `guppy/` ni `drivers/`
   (comprobado con `pyi-archive_viewer --list`).
 - Los avisos de `winrt.windows.*` que salen en `build\...\warn-*.txt` son paquetes opcionales que

@@ -116,7 +116,7 @@ class App:
 
         self.img = {name: tk.PhotoImage(file=asset(name + ".png")) for name in (
             "background", "background-off", "bluetooth", "bluetooth-off", "battery", "battery-off")}
-        root.iconphoto(True, self.img["bluetooth"])
+        root.iconbitmap(default=asset(os.path.join("app-icon", "icon.ico")))
 
         c = self.canvas = tk.Canvas(root, width=WIDTH, height=HEIGHT, highlightthickness=0, bg="white")
         c.pack()

@@ -16,7 +16,10 @@ a = Analysis(
     pathex=[],
     binaries=[(VIGEM_CLIENT_DLL, "vgamepad/win/vigem/client/x64")],
     # Window images. Only the DLL above from vgamepad: its old ViGEmBus MSIs are left out.
-    datas=[(os.path.join("assets", "*.png"), "assets")],
+    datas=[
+        (os.path.join("assets", "*.png"), "assets"),
+        (os.path.join("assets", "app-icon", "icon.ico"), os.path.join("assets", "app-icon")),
+    ],
     hiddenimports=[],
     hookspath=[],
     hooksconfig={},
@@ -34,6 +37,7 @@ exe = EXE(
     a.datas,
     [],
     name="FlypadKeepalive",
+    icon=os.path.join("assets", "app-icon", "icon.ico"),
     debug=False,
     bootloader_ignore_signals=False,
     strip=False,
