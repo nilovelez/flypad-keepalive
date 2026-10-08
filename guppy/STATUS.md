@@ -19,8 +19,13 @@ Plan por hitos:
 - [x] H6. Repo presentable: `LICENSE` con la GPL-3.0 (la ventana ya dice «GPL-3.0 Licensed»); README: requisitos, instalación del driver, uso, asignación de botones, problemas habituales, aviso de SmartScreen (el `.exe` no está firmado).
 - [x] H7. Publicar una release en GitHub con el `.exe`.
 
+## Backlog (próxima versión)
+
+- Número de versión en el ejecutable (propiedades del .exe: Detalles) y en el pie de la ventana, junto al crédito.
+
 ## Diario
 
+- 2026-10-08: Backlog: número de versión en el .exe y en el pie de la ventana para la próxima versión. La 1.0.0 se queda como está.
 - 2026-10-08: H7 cerrado: release v1.0.0 publicada por Nilo (https://github.com/nilovelez/flypad-keepalive/releases/tag/v1.0.0; SHA-256 del .exe verificado). README con etiqueta de última versión y descarga directa de la última release. Todos los hitos completados.
 - 2026-10-08: H6 cerrado. La tabla de botones se queda como está (sale del código).
 - 2026-10-08: El enlace del driver (app y README) pasa a descarga directa (/raw/main/drivers/...).
