@@ -138,8 +138,8 @@ class App:
         c.tag_bind(self.link, "<Enter>", lambda _e: c.config(cursor="hand2" if self.link_url else ""))
         c.tag_bind(self.link, "<Leave>", lambda _e: c.config(cursor=""))
 
-        # Small link to the project page in the bottom-left corner
-        self.repo = c.create_text(MARGIN, HEIGHT - MARGIN + 4, text="github.com/nilovelez/flypad-keepalive",
+        # Credit in the bottom-left corner, linking to the project page
+        self.repo = c.create_text(MARGIN, HEIGHT - MARGIN + 4, text="© Nilo Velez · GPL-3.0 Licensed",
                                   anchor="sw", font=("Segoe UI", 8), fill=SUB_COLOR)
         c.tag_bind(self.repo, "<Button-1>", lambda _e: webbrowser.open(REPO_URL))
         c.tag_bind(self.repo, "<Enter>", lambda _e: (c.config(cursor="hand2"),
