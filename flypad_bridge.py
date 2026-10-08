@@ -210,7 +210,8 @@ async def run(args):
             await asyncio.sleep(2)
             continue
 
-        log("Encontrado: %s (%s). Conectando..." % (dev.name, dev.address))
+        # Si se encuentra por el UUID del servicio, Windows puede no dar el nombre
+        log("Encontrado: %s (%s). Conectando..." % (dev.name or "Flypad", dev.address))
         loop = asyncio.get_running_loop()
         disconnected = asyncio.Event()
 
