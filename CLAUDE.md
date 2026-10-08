@@ -42,7 +42,8 @@ Extraído decompilando FreeFlight Mini 5.5.9 (`com.parrot.freeflight3.RemoteCont
     JOY_LEFT (pulsar) 0x200, JOY_RIGHT (pulsar) 0x400`.
 - **Comando LED** (2 bytes a `9e35fa02`): byte0 `0xA7` = verde, `0xC7` = rojo; byte1 `0xD1` = vibrar,
   `0x00` = no vibrar. La app oficial solo lo envía al conectar y cuando cambia la batería; no hay
-  ningún heartbeat periódico. El "keep-alive" opcional del bridge reenvía `A7 00`.
+  ningún heartbeat periódico. El bridge tuvo un keep-alive que reenviaba `A7 00`; se quitó
+  (2026-10-08) porque se comprobó que la conexión GATT aguanta sin él.
 - Existe además un servicio OTA de actualización de firmware (`9e35fb01-…`, bootloader CSR).
   No tocarlo.
 
