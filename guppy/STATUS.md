@@ -1,23 +1,24 @@
 ---
 estado: activo
-siguiente_paso: Empaquetar flypad_bridge.py como .exe único con PyInstaller, con el keep-alive desactivado por defecto (--keepalive opcional).
+siguiente_paso: Probar H1 en Uncrashed (sin keep-alive y con --keepalive) y pasar a H2, mensajes de error claros.
 bloqueo: ""
 actualizado: 2026-10-08
 ---
 
 # Estado
 
-El bridge funciona: presenta el Flypad (BLE) como mando virtual de Xbox 360 y se ha probado más de 10 minutos seguidos en Uncrashed sin cortes. Falta convertirlo en algo distribuible: ejecutable, detección del driver ViGEmBus y README.
+El bridge funciona: presenta el Flypad (BLE) como mando virtual de Xbox 360 y se ha probado más de 10 minutos seguidos en Uncrashed sin cortes. Ahora se está convirtiendo en algo distribuible, por hitos y de uno en uno. Decidido: se queda como programa de consola en una ventana pequeña que se deja abierta; no habrá icono en la bandeja.
 
-Pendiente:
+Plan por hitos:
 
-- [ ] Empaquetar como `.exe` único con PyInstaller.
-- [ ] Keep-alive desactivado por defecto (no hace falta), pero disponible con `--keepalive`.
-- [ ] Guardar el instalador de ViGEmBus v1.22.0 en el repo y documentarlo en el README.
-- [ ] Detectar si falta ViGEmBus y avisar con un mensaje claro en vez de un error críptico.
-- [ ] README: requisitos, instalación del driver, uso, asignación de botones.
-- Por decidir: ventana de consola (como ahora) o app sin ventana con icono en la bandeja.
+- [x] H1. Poner orden: keep-alive desactivado por defecto (`--keepalive` opcional), docstring al día, `requirements.txt`, `.gitignore`. Pendiente de probar en Uncrashed.
+- [ ] H2. Mensajes de error claros: falta ViGEmBus, Bluetooth apagado o sin adaptador; que la ventana no se cierre de golpe ante un error.
+- [ ] H3. Guardar el instalador de ViGEmBus v1.22.0 en `drivers/` con su licencia.
+- [ ] H4. `.exe` único con PyInstaller (`.spec` + script de build), sin incluir `guppy/`.
+- [ ] H5. README: requisitos, instalación del driver, uso, asignación de botones, problemas habituales.
+- [ ] H6 (opcional). Publicar una release en GitHub con el `.exe`.
 
 ## Diario
 
+- 2026-10-08: H1 hecho: keep-alive pasa a ser opcional (`--keepalive`), limpieza del script, `requirements.txt` y `.gitignore`. Decidido: consola, sin icono de bandeja. Plan por hitos H1–H6.
 - 2026-10-08: guppy/STATUS.md creado.

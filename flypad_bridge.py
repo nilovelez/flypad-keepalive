@@ -1,31 +1,31 @@
 # -*- coding: utf-8 -*-
 """
-flypad_bridge.py — Puente Parrot Flypad (BLE) -> mando virtual Xbox 360, con keep-alive
+flypad_bridge.py — Puente Parrot Flypad (BLE) -> mando virtual Xbox 360
 
 Que hace
 --------
 1. Busca el Flypad por Bluetooth LE (nombre "FLYPAD" o servicio 9e35fa00) y se conecta.
 2. Lee sus entradas (frames de 7 bytes en la caracteristica 9e35fa01) y las vuelca
    a un mando virtual de Xbox 360 (ViGEmBus), que es lo que ven Liftoff/Uncrashed.
-3. Cada N segundos escribe el comando "LED verde, sin vibracion" (A7 00) en la
-   caracteristica 9e35fa02. Es la unica escritura que hace la app oficial al mando
-   y deberia evitar que se desconecte.
-4. Si el mando se desconecta, vuelve a buscarlo y se reconecta solo.
+3. Si el mando se desconecta, vuelve a buscarlo y se reconecta solo.
+4. Opcional (--keepalive): cada N segundos escribe el comando "LED verde, sin
+   vibracion" (A7 00) en la caracteristica 9e35fa02. Se ha comprobado que no hace
+   falta para que la conexion aguante; queda por si algun dia vuelve a cortarse.
 
 Protocolo sacado de FreeFlight Mini 5.5.9 (com.parrot.freeflight3.RemoteController
 y FrameResolver).
 
 Requisitos
 ----------
-    pip install bleak vgamepad
-(vgamepad instala el driver ViGEmBus la primera vez; acepta el instalador.)
+    pip install -r requirements.txt
+y el driver ViGEmBus (v1.22.0) instalado en el sistema.
 
 Uso
 ---
     python flypad_bridge.py                 # normal
     python flypad_bridge.py --no-gamepad    # solo diagnostico: imprime frames, sin mando virtual
-    python flypad_bridge.py --interval 10   # keep-alive cada 10 s (por defecto 20)
-    python flypad_bridge.py --no-keepalive  # para comprobar que sin keep-alive SI se corta
+    python flypad_bridge.py --keepalive     # enviar keep-alive cada 20 s
+    python flypad_bridge.py --keepalive --interval 10   # keep-alive cada 10 s
     python flypad_bridge.py --address C6:41:41:93:4B:73   # si hay varios Flypad
 
 Antes de lanzarlo: enciende el Flypad (LED verde parpadeando) y NO lo tengas
@@ -183,10 +183,9 @@ async def run(args):
                 t0 = time.monotonic()
                 await client.start_notify(INPUT_UUID, lambda _s, d: pad.on_frame(d))
                 log("Conectado. Ya puedes usar el mando.")
-                if not args.no_keepalive:
+                if args.keepalive:
+                    log("Keep-alive activado (cada %g s)." % args.interval)
                     ka_task = asyncio.create_task(keepalive_loop(client, args.interval, t0))
-                else:
-                    log("Keep-alive DESACTIVADO (modo prueba).")
                 await disconnected.wait()
         except Exception as e:
             log("Error de conexion: %s" % e)
@@ -195,10 +194,8 @@ async def run(args):
                 ka_task.cancel()
             pad.reset()
 
-        if not args.no_gamepad:
-            pass
-        else:
-            print()
+        if args.no_gamepad:
+            print()  # cierra la linea de frames que se va sobrescribiendo con \r
         log("Desconectado tras %d s. Reintentando..." % (time.monotonic() - t0))
         await asyncio.sleep(2)
 
@@ -206,8 +203,10 @@ async def run(args):
 def main():
     ap = argparse.ArgumentParser(description="Puente Parrot Flypad BLE -> mando Xbox 360 virtual")
     ap.add_argument("--address", help="MAC del Flypad (si hay varios)")
-    ap.add_argument("--interval", type=float, default=20.0, help="segundos entre keep-alives (def. 20)")
-    ap.add_argument("--no-keepalive", action="store_true", help="no enviar keep-alive (para comparar)")
+    ap.add_argument("--keepalive", action="store_true",
+                    help="enviar keep-alive periodico al mando (desactivado por defecto)")
+    ap.add_argument("--interval", type=float, default=20.0,
+                    help="segundos entre keep-alives con --keepalive (def. 20)")
     ap.add_argument("--no-gamepad", action="store_true", help="no crear mando virtual; solo imprimir frames")
     args = ap.parse_args()
     try:
