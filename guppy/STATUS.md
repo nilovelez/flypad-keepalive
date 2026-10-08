@@ -1,6 +1,6 @@
 ---
 estado: activo
-siguiente_paso: Revisar el README publicado en GitHub y cerrar H6; luego H7, publicar la release con el .exe (el README ya enlaza a Releases).
+siguiente_paso: H7, publicar la primera release en GitHub con el .exe (pendiente de acordar versión y contenido).
 bloqueo: ""
 actualizado: 2026-10-08
 ---
@@ -16,11 +16,12 @@ Plan por hitos:
 - [x] H3. Guardar el instalador de ViGEmBus v1.22.0 en `drivers/` con su licencia.
 - [x] H4. `.exe` único con PyInstaller (`.spec` + script de build), sin incluir `guppy/`.
 - [x] H5. Interfaz gráfica: ventana pequeña y cuidada con la imagen del mando en el centro, icono de Bluetooth y zona de mensajes debajo (referencia: Logitech Options). El `.exe` final deja de ser de consola.
-- [ ] H6. Repo presentable: `LICENSE` con la GPL-3.0 (la ventana ya dice «GPL-3.0 Licensed»); README: requisitos, instalación del driver, uso, asignación de botones, problemas habituales, aviso de SmartScreen (el `.exe` no está firmado).
+- [x] H6. Repo presentable: `LICENSE` con la GPL-3.0 (la ventana ya dice «GPL-3.0 Licensed»); README: requisitos, instalación del driver, uso, asignación de botones, problemas habituales, aviso de SmartScreen (el `.exe` no está firmado).
 - [ ] H7 (opcional). Publicar una release en GitHub con el `.exe`.
 
 ## Diario
 
+- 2026-10-08: H6 cerrado. La tabla de botones se queda como está (sale del código).
 - 2026-10-08: El enlace del driver (app y README) pasa a descarga directa (/raw/main/drivers/...).
 - 2026-10-08: Retoques: el error de driver enlaza a la copia de drivers/ del repo y parte el texto en dos líneas; textos de estado más arriba; README sin icono, sin enlace a Parrot y con captura de la ventana con marco (docs/images/window.png).
 - 2026-10-08: H6 hecho: README en inglés (presentación, por qué, instalación, SmartScreen, uso con capturas, botones, troubleshooting, cómo funciona, build, créditos), LICENSE GPL-3.0 y capturas en docs/images/. El enlace de descarga apunta a Releases, que aún está vacío (H7).
