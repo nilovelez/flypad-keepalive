@@ -7,6 +7,7 @@
 
 <p align="center">
   <img src="https://img.shields.io/badge/platform-Windows%2010%20%7C%2011-0078D6" alt="Windows 10 | 11">
+  <a href="https://github.com/nilovelez/flypad-keepalive/releases/latest"><img src="https://img.shields.io/github/v/release/nilovelez/flypad-keepalive" alt="Latest release"></a>
   <img src="https://img.shields.io/github/license/nilovelez/flypad-keepalive" alt="License: GPL-3.0">
 </p>
 
@@ -66,8 +67,10 @@ skip this step.
 
 ### 2. Download Flypad Keepalive
 
-Get `FlypadKeepalive.exe` from the [**Releases**](https://github.com/nilovelez/flypad-keepalive/releases)
-page and put it anywhere you like, for example on your desktop. There is nothing to install.
+**[Download FlypadKeepalive.exe](https://github.com/nilovelez/flypad-keepalive/releases/latest/download/FlypadKeepalive.exe)**
+(latest version) and put it anywhere you like, for example on your desktop. There is nothing to install.
+
+Release notes and checksums are on the [Releases](https://github.com/nilovelez/flypad-keepalive/releases) page.
 
 ### 3. The first time: Windows SmartScreen
 

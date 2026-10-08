@@ -1,13 +1,13 @@
 ---
-estado: activo
-siguiente_paso: H7, publicar la primera release en GitHub con el .exe (pendiente de acordar versión y contenido).
+estado: terminado
+siguiente_paso: Nada pendiente. Versión 1.0.0 publicada.
 bloqueo: ""
 actualizado: 2026-10-08
 ---
 
 # Estado
 
-El bridge funciona: presenta el Flypad (BLE) como mando virtual de Xbox 360 y se ha probado más de 10 minutos seguidos en Uncrashed sin cortes. Ahora se está convirtiendo en algo distribuible, por hitos y de uno en uno. Decidido: el ejecutable final será una ventana gráfica pequeña que se deja abierta (no consola, no icono en la bandeja), al estilo de la pantalla principal de Logitech Options.
+El bridge funciona: presenta el Flypad (BLE) como mando virtual de Xbox 360 y se ha probado más de 10 minutos seguidos en Uncrashed sin cortes. Publicado como v1.0.0: ejecutable con ventana gráfica, README y licencia GPL-3.0. Todos los hitos (H1–H7) están cerrados. Decidido: el ejecutable final será una ventana gráfica pequeña que se deja abierta (no consola, no icono en la bandeja), al estilo de la pantalla principal de Logitech Options.
 
 Plan por hitos:
 
@@ -17,10 +17,11 @@ Plan por hitos:
 - [x] H4. `.exe` único con PyInstaller (`.spec` + script de build), sin incluir `guppy/`.
 - [x] H5. Interfaz gráfica: ventana pequeña y cuidada con la imagen del mando en el centro, icono de Bluetooth y zona de mensajes debajo (referencia: Logitech Options). El `.exe` final deja de ser de consola.
 - [x] H6. Repo presentable: `LICENSE` con la GPL-3.0 (la ventana ya dice «GPL-3.0 Licensed»); README: requisitos, instalación del driver, uso, asignación de botones, problemas habituales, aviso de SmartScreen (el `.exe` no está firmado).
-- [ ] H7 (opcional). Publicar una release en GitHub con el `.exe`.
+- [x] H7. Publicar una release en GitHub con el `.exe`.
 
 ## Diario
 
+- 2026-10-08: H7 cerrado: release v1.0.0 publicada por Nilo (https://github.com/nilovelez/flypad-keepalive/releases/tag/v1.0.0; SHA-256 del .exe verificado). README con etiqueta de última versión y descarga directa de la última release. Todos los hitos completados.
 - 2026-10-08: H6 cerrado. La tabla de botones se queda como está (sale del código).
 - 2026-10-08: El enlace del driver (app y README) pasa a descarga directa (/raw/main/drivers/...).
 - 2026-10-08: Retoques: el error de driver enlaza a la copia de drivers/ del repo y parte el texto en dos líneas; textos de estado más arriba; README sin icono, sin enlace a Parrot y con captura de la ventana con marco (docs/images/window.png).
