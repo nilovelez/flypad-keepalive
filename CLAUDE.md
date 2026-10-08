@@ -82,6 +82,20 @@ Extraído decompilando FreeFlight Mini 5.5.9 (`com.parrot.freeflight3.RemoteCont
 - ViGEmBus está descontinuado por su autor (Nefarius, 2023), pero sigue funcionando en
   Windows 10 y 11. Por eso conviene guardar una copia del instalador en el repo.
 
+## Build del .exe
+
+- `.\build.ps1` → `dist\FlypadKeepalive.exe` (un solo archivo, con consola, ~12 MB). Crea `.venv` con
+  `requirements-build.txt` (PyInstaller 6.22.3) si no existe. Se compila en Marcianito.
+- `flypad_keepalive.spec` mete a mano `vgamepad/win/vigem/client/x64/ViGEmClient.dll` en esa misma
+  ruta (vgamepad la carga relativa a su paquete). El spec localiza vgamepad con `find_spec` sin
+  importarlo, porque importarlo falla si no está ViGEmBus (Marcianito no lo tiene).
+- No se incluyen los MSI viejos de ViGEmBus que trae vgamepad, ni `guppy/` ni `drivers/`
+  (comprobado con `pyi-archive_viewer --list`).
+- Los avisos de `winrt.windows.*` que salen en `build\...\warn-*.txt` son paquetes opcionales que
+  tampoco están en el entorno normal; el escaneo BLE funciona desde el .exe.
+- El `build.ps1` no usa `$ErrorActionPreference = "Stop"`: PyInstaller escribe en stderr y
+  PowerShell lo cortaría. Los fallos se detectan con `$LASTEXITCODE`.
+
 ## Entorno
 
 - Windows 11, Python 3. Dependencias: `bleak`, `vgamepad`.

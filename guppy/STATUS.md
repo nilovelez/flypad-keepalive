@@ -1,6 +1,6 @@
 ---
 estado: activo
-siguiente_paso: H4, .exe único con PyInstaller.
+siguiente_paso: Probar dist\\FlypadKeepalive.exe en el equipo de pruebas (sin Python) en una partida y cerrar H4.
 bloqueo: ""
 actualizado: 2026-10-08
 ---
@@ -20,6 +20,7 @@ Plan por hitos:
 
 ## Diario
 
+- 2026-10-08: H4 hecho en Marcianito: build.ps1 + flypad_keepalive.spec generan FlypadKeepalive.exe (11,8 MB). Probado aquí: --help, error de driver ausente y escaneo BLE. Pendiente de probar con el Flypad en el equipo de pruebas.
 - 2026-10-08: H3 cerrado.
 - 2026-10-08: Regla nueva: todo lo público (README, textos de la app, ayuda, comentarios) en inglés. Traducidos flypad_bridge.py y drivers/README.md; regla anotada en CLAUDE.md.
 - 2026-10-08: H3 hecho: instalador oficial de ViGEmBus v1.22.0 (firma válida de Nefarius, SHA-256 anotado) y su licencia BSD-3 guardados en drivers/.
