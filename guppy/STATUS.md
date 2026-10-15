@@ -1,49 +1,43 @@
----
-estado: terminado
-siguiente_paso: Nada pendiente. Versión 1.0.0 publicada.
-bloqueo: ""
-actualizado: 2026-10-08
----
+# Status
 
-# Estado
+The bridge works: it presents the Flypad (BLE) as a virtual Xbox 360 controller and has been tested for more than 10 minutes in a row in Uncrashed without dropouts. Published as v1.0.0: executable with a graphical window, README and GPL-3.0 license. All milestones (H1–H7) are closed. Nothing is pending. Decided: the final executable is a small graphical window that stays open (no console, no tray icon), in the style of the Logitech Options main screen.
 
-El bridge funciona: presenta el Flypad (BLE) como mando virtual de Xbox 360 y se ha probado más de 10 minutos seguidos en Uncrashed sin cortes. Publicado como v1.0.0: ejecutable con ventana gráfica, README y licencia GPL-3.0. Todos los hitos (H1–H7) están cerrados. Decidido: el ejecutable final será una ventana gráfica pequeña que se deja abierta (no consola, no icono en la bandeja), al estilo de la pantalla principal de Logitech Options.
+Milestone plan:
 
-Plan por hitos:
+- [x] H1. Tidy up: keep-alive removed (tested: not needed), docstring up to date, `requirements.txt` with pinned versions, `.gitignore`.
+- [x] H2. Clear error messages: ViGEmBus missing, Bluetooth off or no adapter; the window must not close abruptly on an error.
+- [x] H3. Store the ViGEmBus v1.22.0 installer in `drivers/` with its license.
+- [x] H4. Single `.exe` with PyInstaller (`.spec` + build script), without including `guppy/`.
+- [x] H5. Graphical interface: small, polished window with the controller image in the center, a Bluetooth icon and a message area below (reference: Logitech Options). The final `.exe` is no longer a console app.
+- [x] H6. Presentable repo: `LICENSE` with the GPL-3.0 (the window already says "GPL-3.0 Licensed"); README: requirements, driver installation, usage, button mapping, common problems, SmartScreen warning (the `.exe` is not signed).
+- [x] H7. Publish a GitHub release with the `.exe`.
 
-- [x] H1. Poner orden: keep-alive eliminado (probado: no hace falta), docstring al día, `requirements.txt` con versiones fijadas, `.gitignore`.
-- [x] H2. Mensajes de error claros: falta ViGEmBus, Bluetooth apagado o sin adaptador; que la ventana no se cierre de golpe ante un error.
-- [x] H3. Guardar el instalador de ViGEmBus v1.22.0 en `drivers/` con su licencia.
-- [x] H4. `.exe` único con PyInstaller (`.spec` + script de build), sin incluir `guppy/`.
-- [x] H5. Interfaz gráfica: ventana pequeña y cuidada con la imagen del mando en el centro, icono de Bluetooth y zona de mensajes debajo (referencia: Logitech Options). El `.exe` final deja de ser de consola.
-- [x] H6. Repo presentable: `LICENSE` con la GPL-3.0 (la ventana ya dice «GPL-3.0 Licensed»); README: requisitos, instalación del driver, uso, asignación de botones, problemas habituales, aviso de SmartScreen (el `.exe` no está firmado).
-- [x] H7. Publicar una release en GitHub con el `.exe`.
+## Backlog (next version)
 
-## Backlog (próxima versión)
+- Version number in the executable (.exe properties: Details) and in the window footer, next to the credit.
 
-- Número de versión en el ejecutable (propiedades del .exe: Detalles) y en el pie de la ventana, junto al crédito.
+## Log
 
-## Diario
-
-- 2026-10-08: Backlog: número de versión en el .exe y en el pie de la ventana para la próxima versión. La 1.0.0 se queda como está.
-- 2026-10-08: H7 cerrado: release v1.0.0 publicada por Nilo (https://github.com/nilovelez/flypad-keepalive/releases/tag/v1.0.0; SHA-256 del .exe verificado). README con etiqueta de última versión y descarga directa de la última release. Todos los hitos completados.
-- 2026-10-08: H6 cerrado. La tabla de botones se queda como está (sale del código).
-- 2026-10-08: El enlace del driver (app y README) pasa a descarga directa (/raw/main/drivers/...).
-- 2026-10-08: Retoques: el error de driver enlaza a la copia de drivers/ del repo y parte el texto en dos líneas; textos de estado más arriba; README sin icono, sin enlace a Parrot y con captura de la ventana con marco (docs/images/window.png).
-- 2026-10-08: H6 hecho: README en inglés (presentación, por qué, instalación, SmartScreen, uso con capturas, botones, troubleshooting, cómo funciona, build, créditos), LICENSE GPL-3.0 y capturas en docs/images/. El enlace de descarga apunta a Releases, que aún está vacío (H7).
-- 2026-10-08: H5 cerrado: ventana gráfica probada con el Flypad en el equipo de pruebas.
-- 2026-10-08: El enlace al repo pasa a ser un crédito: «© Nilo Velez · GPL-3.0 Licensed». Falta añadir el LICENSE GPL-3.0 al repo (H6).
-- 2026-10-08: Enlace al repo de GitHub en la esquina inferior izquierda de la ventana.
-- 2026-10-08: Icono de la app (assets/app-icon/icon.ico, de Nilo) puesto en la ventana y en el .exe.
-- 2026-10-08: H5 hecho en Marcianito tras aprobar el mockup: flypad_keepalive.py (Tkinter, imágenes de assets/) y .exe sin consola (15,2 MB). Probado aquí: error de driver con enlace, búsqueda BLE real y cierre limpio. Pendiente de probar con el Flypad.
-- 2026-10-08: H4 cerrado: el .exe funciona en una partida en el equipo de pruebas. H5 decidido: Tkinter; la imagen del mando la aporta Nilo (foto con fondo blanco).
-- 2026-10-08: Nuevo hito H5, interfaz gráfica (el README pasa a H6 y la release a H7). El .exe salta SmartScreen en el equipo de pruebas: se documentará en el README.
-- 2026-10-08: H4 hecho en Marcianito: build.ps1 + flypad_keepalive.spec generan FlypadKeepalive.exe (11,8 MB). Probado aquí: --help, error de driver ausente y escaneo BLE. Pendiente de probar con el Flypad en el equipo de pruebas.
-- 2026-10-08: H3 cerrado.
-- 2026-10-08: Regla nueva: todo lo público (README, textos de la app, ayuda, comentarios) en inglés. Traducidos flypad_bridge.py y drivers/README.md; regla anotada en CLAUDE.md.
-- 2026-10-08: H3 hecho: instalador oficial de ViGEmBus v1.22.0 (firma válida de Nefarius, SHA-256 anotado) y su licencia BSD-3 guardados en drivers/.
-- 2026-10-08: H2 cerrado. Probado en el equipo de pruebas: uso normal sin cambios; al apagar el Bluetooth avisa y reconecta solo al encenderlo. Retoque: el log muestra «Flypad» cuando Windows no da el nombre del dispositivo.
-- 2026-10-08: H2 implementado y probado en Marcianito (falta ViGEmBus, Bluetooth apagado/ausente simulado, la ventana espera a Intro ante un error). Pendiente de probar en el equipo de pruebas.
-- 2026-10-08: H1 cerrado. Probado en el equipo de pruebas: funciona sin keep-alive, así que se elimina del código. Versiones fijadas: bleak 3.0.2, vgamepad 0.1.0 (Python 3.14).
-- 2026-10-08: H1 hecho: keep-alive pasa a ser opcional (`--keepalive`), limpieza del script, `requirements.txt` y `.gitignore`. Decidido: consola, sin icono de bandeja. Plan por hitos H1–H6.
-- 2026-10-08: guppy/STATUS.md creado.
+- 2026-10-16: migrated to the new Guppy format (STATUS.json).
+- 2026-10-08: Backlog: version number in the .exe and in the window footer for the next version. 1.0.0 stays as it is.
+- 2026-10-08: H7 closed: v1.0.0 release published by Nilo (https://github.com/nilovelez/flypad-keepalive/releases/tag/v1.0.0; .exe SHA-256 verified). README with a latest-version badge and a direct download of the latest release. All milestones completed.
+- 2026-10-08: H6 closed. The button table stays as it is (it comes from the code).
+- 2026-10-08: The driver link (app and README) becomes a direct download (/raw/main/drivers/...).
+- 2026-10-08: Touch-ups: the driver error links to the repo's copy in drivers/ and splits the text into two lines; status texts moved up; README without the icon, without the link to Parrot, and with a framed screenshot of the window (docs/images/window.png).
+- 2026-10-08: H6 done: README in English (introduction, why, installation, SmartScreen, usage with screenshots, buttons, troubleshooting, how it works, build, credits), GPL-3.0 LICENSE and screenshots in docs/images/. The download link points to Releases, which is still empty (H7).
+- 2026-10-08: H5 closed: graphical window tested with the Flypad on the test machine.
+- 2026-10-08: The repo link becomes a credit: "© Nilo Velez · GPL-3.0 Licensed". The GPL-3.0 LICENSE still has to be added to the repo (H6).
+- 2026-10-08: Link to the GitHub repo in the bottom-left corner of the window.
+- 2026-10-08: App icon (assets/app-icon/icon.ico, by Nilo) set on the window and the .exe.
+- 2026-10-08: H5 done on Marcianito after the mockup was approved: flypad_keepalive.py (Tkinter, images from assets/) and a .exe without a console (15.2 MB). Tested here: driver error with link, real BLE scan and clean shutdown. Still to be tested with the Flypad.
+- 2026-10-08: H4 closed: the .exe works in a game on the test machine. H5 decided: Tkinter; Nilo provides the controller image (photo on a white background).
+- 2026-10-08: New milestone H5, graphical interface (the README moves to H6 and the release to H7). The .exe triggers SmartScreen on the test machine: to be documented in the README.
+- 2026-10-08: H4 done on Marcianito: build.ps1 + flypad_keepalive.spec generate FlypadKeepalive.exe (11.8 MB). Tested here: --help, missing-driver error and BLE scan. Still to be tested with the Flypad on the test machine.
+- 2026-10-08: H3 closed.
+- 2026-10-08: New rule: everything public (README, app texts, help, comments) in English. flypad_bridge.py and drivers/README.md translated; rule noted in CLAUDE.md.
+- 2026-10-08: H3 done: official ViGEmBus v1.22.0 installer (valid Nefarius signature, SHA-256 noted) and its BSD-3 license stored in drivers/.
+- 2026-10-08: H2 closed. Tested on the test machine: normal use unchanged; when Bluetooth is turned off it warns and reconnects on its own when it is turned back on. Touch-up: the log shows "Flypad" when Windows does not provide the device name.
+- 2026-10-08: H2 implemented and tested on Marcianito (missing ViGEmBus, Bluetooth off/absent simulated, the window waits for Enter on an error). Still to be tested on the test machine.
+- 2026-10-08: H1 closed. Tested on the test machine: it works without keep-alive, so it is removed from the code. Pinned versions: bleak 3.0.2, vgamepad 0.1.0 (Python 3.14).
+- 2026-10-08: H1 done: keep-alive becomes optional (`--keepalive`), script cleanup, `requirements.txt` and `.gitignore`. Decided: console, no tray icon. Milestone plan H1–H6.
+- 2026-10-08: guppy/STATUS.md created.
