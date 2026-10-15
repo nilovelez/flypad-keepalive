@@ -3,9 +3,9 @@
   "title": "Flypad Keepalive",
   "description": "Windows app that lets you use the Parrot Flypad Bluetooth controller in PC drone simulators by presenting it as an Xbox 360 controller.",
   "status": "archived",
-  "status_text": "Version 1.0.0 is published on GitHub. No further work is planned.",
-  "last_update": "2026-10-08 21:37:47 +0200",
-  "last_update_unix": 1791488267,
+  "status_text": "Version 1.0.0 is published as a release on GitHub. No further work is planned.",
+  "last_update": "2026-10-15 20:00:06 +0200",
+  "last_update_unix": 1792087206,
   "url": "https://github.com/nilovelez/flypad-keepalive",
   "status_url": "https://raw.githubusercontent.com/nilovelez/flypad-keepalive/main/guppy/STATUS.md",
   "icon": null
